@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Contratação de Funcionários - PicPay</title>
+<link rel="stylesheet" href="./css/style.css">
+<link rel="icon" type="image/svg+xml" href="/img/icon.svg">
+</head>
+<body>
+
+<div class="app-shell">
+
+<aside class="sidebar">
+  <div class="brand">
+    <i data-lucide="cpu"></i>
+    <span class="brand-text">Sistema de<br><strong>Contratação de<br>Funcionários</strong></span>
+  </div>
+  <nav class="app-nav">
+    <button class="nav-btn active" data-view="listagem">
+      <span class="nav-icon">
+          <i data-lucide="users"></i>
+      </span>
+      Funcionários
+  </button>
+  
+  <button class="nav-btn" data-view="cadastro">
+      <span class="nav-icon">
+          <i data-lucide="circle-plus"></i>
+      </span>
+      Cadastrar
+  </button>
+  
+  <button class="nav-btn" data-view="indicadores">
+      <span class="nav-icon">
+          <i data-lucide="chart-column"></i>
+      </span>
+      Indicadores
+  </button>
+  </nav>
+</aside>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<main class="app-main">
+
+  <!-- ===================== LISTAGEM / BUSCA ===================== -->
+  <section id="view-listagem" class="view active">
+    <h2>Funcionários</h2>
+
+    <form id="form-busca" class="search-form">
+      <div class="field">
+        <label for="busca-nome">Nome</label>
+        <input type="text" id="busca-nome" placeholder="Buscar por nome">
+      </div>
+      <div class="field">
+        <label for="busca-cargo">Cargo</label>
+        <input type="text" id="busca-cargo" placeholder="Buscar por cargo">
+      </div>
+      <div class="field">
+        <label for="busca-status">Status</label>
+        <select id="busca-status">
+          <option value="">Todos</option>
+          <option value="EM_ANALISE">Em análise</option>
+          <option value="APROVADO">Aprovado</option>
+          <option value="REPROVADO">Reprovado</option>
+          <option value="CONTRATADO">Contratado</option>
+        </select>
+      </div>
+      <div class="field field-actions">
+        <button type="submit" class="btn btn-primary">Pesquisar</button>
+        <button type="button" id="btn-limpar-busca" class="btn btn-secondary">Limpar</button>
+      </div>
+    </form>
+
+    <div id="listagem-loading" class="loading hidden">Carregando funcionários...</div>
+    <div id="listagem-vazio" class="empty-state hidden">Nenhum funcionário encontrado.</div>
+
+    <div class="table-wrapper">
+      <table id="tabela-funcionarios" class="data-table hidden">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Cargo</th>
+            <th>Departamento</th>
+            <th>Salário</th>
+            <th>Cidade</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-funcionarios-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== CADASTRO (POST) ===================== -->
+  <section id="view-cadastro" class="view">
+    <h2>Cadastrar Funcionário</h2>
+
+    <form id="form-cadastro" class="entity-form" novalidate>
+      <div class="field">
+        <label for="cad-nome">Nome *</label>
+        <input type="text" id="cad-nome" name="nome" required maxlength="120">
+        <span class="field-error" data-error-for="cad-nome"></span>
+      </div>
+
+      <div class="field">
+        <label for="cad-email">Email *</label>
+        <input type="email" id="cad-email" name="email" required>
+        <span class="field-error" data-error-for="cad-email"></span>
+      </div>
+
+      <div class="field">
+        <label for="cad-telefone">Telefone</label>
+        <input type="text" id="cad-telefone" name="telefone" maxlength="30">
+      </div>
+
+      <div class="field">
+        <label for="cad-cargo">Cargo *</label>
+        <input type="text" id="cad-cargo" name="cargo" required maxlength="100">
+        <span class="field-error" data-error-for="cad-cargo"></span>
+      </div>
+
+      <div class="field">
+        <label for="cad-departamento">Departamento</label>
+        <input type="text" id="cad-departamento" name="departamento" maxlength="100">
+      </div>
+
+      <div class="field">
+        <label for="cad-salario">Salário</label>
+        <input type="number" id="cad-salario" name="salario" min="0" step="0.01">
+      </div>
+
+      <div class="field">
+        <label for="cad-cidade">Cidade</label>
+        <input type="text" id="cad-cidade" name="cidade" maxlength="100">
+      </div>
+
+      <div class="field">
+        <label for="cad-status">Status</label>
+        <select id="cad-status" name="status">
+          <option value="">(padrão: Em análise)</option>
+          <option value="EM_ANALISE">Em análise</option>
+          <option value="APROVADO">Aprovado</option>
+          <option value="REPROVADO">Reprovado</option>
+          <option value="CONTRATADO">Contratado</option>
+        </select>
+      </div>
+
+      <div class="field field-actions">
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <button type="reset" class="btn btn-secondary">Limpar</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ===================== INDICADORES ===================== -->
+  <section id="view-indicadores" class="view">
+    <h2>Indicadores</h2>
+    <div id="indicadores-loading" class="loading hidden">Carregando indicadores...</div>
+    <div class="indicadores-grid">
+      <div class="indicador-card">
+        <span class="indicador-icone">
+          <i data-lucide="users-round"></i>
+        </span>
+        <span class="indicador-valor" id="ind-total">-</span>
+        <span class="indicador-label">Total</span>
+      </div>
+    
+      <div class="indicador-card indicador-em-analise">
+        <span class="indicador-icone">
+          <i data-lucide="clock-3"></i>
+        </span>
+        <span class="indicador-valor" id="ind-em-analise">-</span>
+        <span class="indicador-label">Em análise</span>
+      </div>
+    
+      <div class="indicador-card indicador-aprovado">
+        <span class="indicador-icone">
+          <i data-lucide="circle-check"></i>
+        </span>
+        <span class="indicador-valor" id="ind-aprovados">-</span>
+        <span class="indicador-label">Aprovados</span>
+      </div>
+    
+      <div class="indicador-card indicador-reprovado">
+        <span class="indicador-icone">
+          <i data-lucide="circle-x"></i>
+        </span>
+        <span class="indicador-valor" id="ind-reprovados">-</span>
+        <span class="indicador-label">Reprovados</span>
+      </div>
+    
+      <div class="indicador-card indicador-contratado">
+        <span class="indicador-icone">
+          <i data-lucide="user-check"></i>
+        </span>
+        <span class="indicador-valor" id="ind-contratados">-</span>
+        <span class="indicador-label">Contratados</span>
+      </div>
+    </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- ===================== MODAL: DETALHE / EDIÇÃO ===================== -->
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-header">
+      <h3 id="modal-title">Funcionário</h3>
+      <button type="button" id="modal-close" class="modal-close" aria-label="Fechar">&times;</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button type="button" class="tab-btn active" data-tab="detalhe">Detalhes</button>
+      <button type="button" class="tab-btn" data-tab="editar-completo">Editar (completo)</button>
+      <button type="button" class="tab-btn" data-tab="editar-parcial">Editar (parcial)</button>
+    </div>
+
+    <!-- Detalhe (GET por ID) -->
+    <div class="tab-panel active" data-panel="detalhe">
+      <dl class="detail-list" id="detalhe-conteudo"></dl>
+      <div class="field-actions">
+        <button type="button" id="btn-excluir" class="btn btn-danger">Excluir</button>
+      </div>
+    </div>
+
+    <!-- Edição completa (PUT) -->
+    <div class="tab-panel" data-panel="editar-completo">
+      <form id="form-editar-completo" class="entity-form" novalidate>
+        <input type="hidden" id="put-id">
+        <div class="field">
+          <label for="put-nome">Nome *</label>
+          <input type="text" id="put-nome" required maxlength="120">
+          <span class="field-error" data-error-for="put-nome"></span>
+        </div>
+        <div class="field">
+          <label for="put-email">Email *</label>
+          <input type="email" id="put-email" required>
+          <span class="field-error" data-error-for="put-email"></span>
+        </div>
+        <div class="field">
+          <label for="put-telefone">Telefone</label>
+          <input type="text" id="put-telefone" maxlength="30">
+        </div>
+        <div class="field">
+          <label for="put-cargo">Cargo *</label>
+          <input type="text" id="put-cargo" required maxlength="100">
+          <span class="field-error" data-error-for="put-cargo"></span>
+        </div>
+        <div class="field">
+          <label for="put-departamento">Departamento</label>
+          <input type="text" id="put-departamento" maxlength="100">
+        </div>
+        <div class="field">
+          <label for="put-salario">Salário</label>
+          <input type="number" id="put-salario" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label for="put-cidade">Cidade</label>
+          <input type="text" id="put-cidade" maxlength="100">
+        </div>
+        <div class="field">
+          <label for="put-status">Status *</label>
+          <select id="put-status" required>
+            <option value="EM_ANALISE">Em análise</option>
+            <option value="APROVADO">Aprovado</option>
+            <option value="REPROVADO">Reprovado</option>
+            <option value="CONTRATADO">Contratado</option>
+          </select>
+        </div>
+        <div class="field field-actions">
+          <button type="submit" class="btn btn-primary">Salvar (PUT)</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Edição parcial (PATCH) -->
+    <div class="tab-panel" data-panel="editar-parcial">
+      <p class="hint">Preencha somente os campos que deseja alterar.</p>
+      <form id="form-editar-parcial" class="entity-form" novalidate>
+        <input type="hidden" id="patch-id">
+        <div class="field">
+          <label for="patch-nome">Nome</label>
+          <input type="text" id="patch-nome" maxlength="120">
+        </div>
+        <div class="field">
+          <label for="patch-email">Email</label>
+          <input type="email" id="patch-email">
+        </div>
+        <div class="field">
+          <label for="patch-telefone">Telefone</label>
+          <input type="text" id="patch-telefone" maxlength="30">
+        </div>
+        <div class="field">
+          <label for="patch-cargo">Cargo</label>
+          <input type="text" id="patch-cargo" maxlength="100">
+        </div>
+        <div class="field">
+          <label for="patch-departamento">Departamento</label>
+          <input type="text" id="patch-departamento" maxlength="100">
+        </div>
+        <div class="field">
+          <label for="patch-salario">Salário</label>
+          <input type="number" id="patch-salario" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label for="patch-cidade">Cidade</label>
+          <input type="text" id="patch-cidade" maxlength="100">
+        </div>
+        <div class="field">
+          <label for="patch-status">Status</label>
+          <select id="patch-status">
+            <option value="">(não alterar)</option>
+            <option value="EM_ANALISE">Em análise</option>
+            <option value="APROVADO">Aprovado</option>
+            <option value="REPROVADO">Reprovado</option>
+            <option value="CONTRATADO">Contratado</option>
+          </select>
+        </div>
+        <div class="field field-actions">
+          <button type="submit" class="btn btn-primary">Salvar (PATCH)</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+<script src="js/script.js"></script>
+</body>
+</html>
