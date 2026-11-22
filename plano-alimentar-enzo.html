@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plano Alimentar — Superávit Calórico</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm 14mm;
+    }
+
+    :root {
+      --ink: #1a1a1a;
+      --muted: #555;
+      --line: #ccc;
+      --accent: #1f4d3a;
+      --bg-soft: #f3f6f4;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.35;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 0.35em;
+      color: var(--accent);
+      page-break-after: avoid;
+    }
+
+    h1 {
+      font-size: 18pt;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 12.5pt;
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 3px;
+      margin-top: 1.1em;
+    }
+
+    h3 {
+      font-size: 11pt;
+      margin-top: 0.7em;
+    }
+
+    p { margin: 0.35em 0; }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      border-bottom: 2.5px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .header .meta {
+      text-align: right;
+      font-size: 9.5pt;
+      color: var(--muted);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 10.5pt;
+      margin: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 14px;
+    }
+
+    .card {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 8px 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 4px;
+      font-size: 10.5pt;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 5px 7px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--bg-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    ul, ol {
+      margin: 4px 0 6px;
+      padding-left: 1.2em;
+    }
+
+    li { margin: 2px 0; }
+
+    .meal {
+      border-left: 3px solid var(--accent);
+      padding: 4px 0 4px 10px;
+      margin: 8px 0;
+      page-break-inside: avoid;
+    }
+
+    .meal .totals {
+      color: var(--muted);
+      font-size: 9.5pt;
+      margin-top: 2px;
+    }
+
+    .note {
+      font-size: 9.5pt;
+      color: var(--muted);
+    }
+
+    .checkboxes li {
+      list-style: none;
+      margin-left: -0.4em;
+    }
+
+    .checkboxes li::before {
+      content: "☐ ";
+      font-family: "Segoe UI Symbol", sans-serif;
+    }
+
+    .footer {
+      margin-top: 14px;
+      padding-top: 6px;
+      border-top: 1px solid var(--line);
+      font-size: 8.5pt;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div>
+      <h1>Plano Alimentar — Superávit Calórico</h1>
+      <p class="subtitle">Hipertrofia · treino diário leve/moderado · pull / push / leg</p>
+    </div>
+    <div class="meta">
+      <div><strong>Enzo</strong></div>
+      <div>18 anos · 1,80 m · 65 kg</div>
+      <div>Atualizado: 21/11/2026</div>
+    </div>
+  </header>
+
+  <section>
+    <h2>1. Perfil e metas</h2>
+    <div class="grid-2">
+      <div class="card">
+        <strong>Objetivo</strong>
+        <p>Ganhar massa muscular com superávit leve e estável, priorizando proteína e progressão no treino.</p>
+      </div>
+      <div class="card">
+        <strong>Expectativa de resultado</strong>
+        <p><span class="highlight">+0,3 a 0,6 kg/semana</span> · mudança visível em 3–6 meses com consistência.</p>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Meta</th>
+          <th>Observação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Calorias</td>
+          <td><strong>3.000–3.200 kcal/dia</strong></td>
+          <td>Manutenção estimada ~2.600–2.900 kcal</td>
+        </tr>
+        <tr>
+          <td>Proteína</td>
+          <td><strong>130–140 g/dia</strong></td>
+          <td>~2 g por kg de peso corporal</td>
+        </tr>
+        <tr>
+          <td>Carboidrato</td>
+          <td><strong>380–450 g/dia</strong></td>
+          <td>Principal fonte de energia do surplus</td>
+        </tr>
+        <tr>
+          <td>Gordura</td>
+          <td><strong>70–85 g/dia</strong></td>
+          <td>Azeite, queijo, pasta de amendoim, gemas</td>
+        </tr>
+        <tr>
+          <td>Refeições</td>
+          <td><strong>4 por dia</strong></td>
+          <td>Café · almoço · lanche · janta</td>
+        </tr>
+        <tr>
+          <td>Água</td>
+          <td><strong>2,5–3,5 L/dia</strong></td>
+          <td>Aumentar em dias quentes / treino intenso</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>2. Situação atual (ponto de partida)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Refeição</th>
+          <th>Como estava</th>
+          <th>Problema principal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Café</td>
+          <td>Pão com presunto e queijo <em>ou</em> 2 ovos</td>
+          <td>Baixa proteína / calorias variáveis</td>
+        </tr>
+        <tr>
+          <td>Almoço</td>
+          <td>~650 g arroz + 60 g feijão + 120 g proteína</td>
+          <td>Muito carboidrato, proteína ok-baixa</td>
+        </tr>
+        <tr>
+          <td>Janta</td>
+          <td>Mesmo do almoço, com ~80 g proteína</td>
+          <td>Proteína insuficiente</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">Estimativa anterior: ~2.300–2.700 kcal e ~70–90 g de proteína — abaixo do ideal para hipertrofia na sua altura/idade.</p>
+  </section>
+
+  <section>
+    <h2>3. Plano de refeições (para imprimir e seguir)</h2>
+    <p class="note">Pesos em comida pronta / como costuma montar o prato. Totais são aproximados.</p>
+
+    <div class="meal">
+      <h3>Café da manhã — ~450–550 kcal · ~30–35 g proteína</h3>
+      <ul>
+        <li>2 ovos mexidos <strong>ou</strong> 1 pão + 2 ovos</li>
+        <li>1 fatia de queijo</li>
+        <li>1 fruta (banana ou mamão)</li>
+        <li>1 colher de sopa de pasta de amendoim <strong>ou</strong> azeite no ovo</li>
+      </ul>
+    </div>
+
+    <div class="meal">
+      <h3>Almoço — ~750–900 kcal · ~40 g proteína</h3>
+      <ul>
+        <li>Arroz: <strong>400–450 g</strong></li>
+        <li>Feijão: <strong>100–120 g</strong></li>
+        <li>Proteína (frango, carne, peixe ou ovo): <strong>150–160 g</strong></li>
+        <li>Salada/legumes à vontade + 1 fio de azeite</li>
+      </ul>
+    </div>
+
+    <div class="meal">
+      <h3>Lanche da tarde — ~400–500 kcal · ~30–35 g proteína</h3>
+      <p>Escolha <strong>1</strong> opção:</p>
+      <ul>
+        <li><strong>A:</strong> 30–40 g whey + 300 ml leite + 1 banana + 40–50 g aveia</li>
+        <li><strong>B:</strong> 200 g iogurte natural + 40 g granola/aveia + 1 scoop whey (se tiver)</li>
+        <li><strong>C:</strong> 1 pão + 100–120 g frango desfiado ou atum + 1 fruta</li>
+      </ul>
+      <p class="totals">Esta é a refeição que costuma faltar no seu dia.</p>
+    </div>
+
+    <div class="meal">
+      <h3>Janta — ~750–900 kcal · ~35–45 g proteína</h3>
+      <ul>
+        <li>Arroz: <strong>350–400 g</strong></li>
+        <li>Feijão: <strong>80–100 g</strong></li>
+        <li>Proteína: <strong>140–150 g</strong> (subir dos 80 g atuais)</li>
+        <li>Legumes + azeite</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <strong>Total esperado do dia:</strong> ~3.000–3.200 kcal · ~130–145 g de proteína
+    </div>
+  </section>
+
+  <section>
+    <h2>4. Se preferir ficar em 3 refeições</h2>
+    <ul>
+      <li><strong>Café:</strong> 3 ovos + pão + queijo + fruta + pasta de amendoim</li>
+      <li><strong>Almoço:</strong> 450 g arroz + 120 g feijão + <strong>160 g</strong> proteína</li>
+      <li><strong>Janta:</strong> 400 g arroz + 100 g feijão + <strong>160 g</strong> proteína + leite com whey depois</li>
+    </ul>
+    <p class="note">Funciona, mas o lanche da tarde facilita fechar proteína sem estufar.</p>
+  </section>
+
+  <section>
+    <h2>5. Como ajustar pelo peso</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Média semanal na balança</th>
+          <th>O que fazer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sobe menos de 0,2 kg/semana</td>
+          <td>+200–300 kcal/dia (ex.: +banana e aveia, ou +50–100 g arroz)</td>
+        </tr>
+        <tr>
+          <td>Sobe 0,3–0,6 kg/semana</td>
+          <td>Manter — ritmo ideal</td>
+        </tr>
+        <tr>
+          <td>Sobe mais de 0,7 kg/semana</td>
+          <td>−150–200 kcal/dia</td>
+        </tr>
+        <tr>
+          <td>Peso estável</td>
+          <td>Surplus fraco — aumentar calorias</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">Pese-se 3–4 vezes por semana, sempre nas mesmas condições, e use a <strong>média semanal</strong>.</p>
+  </section>
+
+  <section>
+    <h2>6. Treino (contexto)</h2>
+    <ul>
+      <li>Divisão diária: <strong>superior pull · push · leg</strong></li>
+      <li>Intensidade leve/moderada, chegando perto da falha (RPE ~7–9) nas últimas séries</li>
+      <li>Volume útil: ~10–20 séries efetivas por grupo muscular/semana</li>
+      <li>Progressão: mais carga, reps ou melhor controle ao longo das semanas</li>
+      <li>Se o desempenho cair vários dias seguidos: reduzir volume ou tirar 1 dia de descanso</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Checklist diário</h2>
+    <ul class="checkboxes">
+      <li>Bati ~3.000–3.200 kcal</li>
+      <li>Proteína em toda refeição (mín. ~30 g)</li>
+      <li>Fiz o lanche da tarde (ou equivalente)</li>
+      <li>Janta com 140–150 g de proteína</li>
+      <li>Treinei com progressão / boa execução</li>
+      <li>Dormi bem e bebi água o suficiente</li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    <span>Plano pessoal de referência — ajuste conforme resposta do corpo.</span>
+    <span>Página 1/1 · A4</span>
+  </footer>
+</body>
+</html>
